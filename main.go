@@ -19,7 +19,11 @@ func main() {
 	if err != nil {
 		fmt.Println("Error getting root directory")
 	}
-
+	const (
+		colorRed   = "\033[31m"
+		colorGreen = "\033[32m"
+		colorReset = "\033[0m"
+	)
 	ignore := AddReadmeIgnore()
 
 	result := make(chan string, 5)
@@ -44,12 +48,13 @@ func main() {
 
 	ignore.ConfigFileToSkip(files)
 
-	config, err := os.ReadFile(filepath.Join(cwd, "config.md"))
-	fmt.Println(string(config))
+	config, err := os.ReadFile(filepath.Join(cwd, "prompt.md"))
+	//fmt.Println(string(config))
 
 	if string(config) != "" {
 		fmt.Println("Generating README file...")
-		ai, err := Ai(string(content + string(config)))
+		prompt := strings.TrimSpace(string(content + string(config)))
+		ai, err := Ai(string(prompt))
 		if err != nil {
 			fmt.Println("Error generating readme with AI:", err.Error())
 		}
@@ -58,10 +63,11 @@ func main() {
 		if _, err := dst.Write([]byte(ai)); err != nil {
 			fmt.Println(err)
 		}
-		fmt.Println("README.md file generated successfully!")
+		fmt.Printf("%s✨ README.md file generated successfully!%s\n", colorGreen, colorReset)
 	} else {
 		fmt.Println("Generating README file...")
-		ai, err := Ai(string(content))
+		prompt := strings.TrimSpace(string(content))
+		ai, err := Ai(prompt)
 		if err != nil {
 			fmt.Println("Error generating readme with AI:", err.Error())
 		}
@@ -70,7 +76,8 @@ func main() {
 		if _, err := dst.Write([]byte(ai)); err != nil {
 			fmt.Println(err)
 		}
-		fmt.Println("README.md file generated successfully!")
+		fmt.Printf("%s✨ README.md file generated successfully!%s\n", colorGreen, colorReset)
+
 	}
 
 }

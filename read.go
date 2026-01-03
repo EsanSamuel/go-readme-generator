@@ -111,12 +111,12 @@ func (s *ReadmeIgnore) ConfigFolderToSkip(dirs []string) {
 	for _, dir := range dirs {
 		s.SkipDirectories = append(s.SkipDirectories, dir)
 	}
-	fmt.Println(s.SkipDirectories)
+	//fmt.Println(s.SkipDirectories)
 }
 
 func (s *ReadmeIgnore) ConfigFileToSkip(files []string) {
 	for _, file := range files {
 		s.SkipFiles = append(s.SkipFiles, file)
 	}
-	fmt.Println(s.SkipFiles)
+	//fmt.Println(s.SkipFiles)
 }

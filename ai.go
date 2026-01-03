@@ -48,7 +48,7 @@ Formatting rules:
 
 Project data:
 ` + prompt
-	fmt.Println(promptDetail)
+	//fmt.Println(promptDetail)
 
 	result, err := client.Models.GenerateContent(
 		ctx,
