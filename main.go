@@ -1,10 +1,18 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 )
+
+func getInput(prompt string, r *bufio.Reader) (string, error) {
+	fmt.Println(prompt)
+	input, err := r.ReadString('\n')
+	return strings.TrimSpace(input), err
+}
 
 func main() {
 	cwd, err := os.Getwd()
@@ -12,17 +20,32 @@ func main() {
 		fmt.Println("Error getting root directory")
 	}
 
+	ignore := AddReadmeIgnore()
+
 	result := make(chan string, 5)
 
 	go func() {
-		WalkDir(cwd, result)
-		close(result) // Close AFTER all sends are done
+		WalkDir(cwd, ignore, result)
+		close(result) // Close after all sends are done
 	}()
 
 	content := <-result
 
+	reader := bufio.NewReader(os.Stdin)
+	directory, _ := getInput("Enter folders you want to skip:", reader)
+
+	directories := strings.Split(directory, " ")
+
+	ignore.ConfigFolderToSkip(directories)
+
+	file, _ := getInput("Enter files you want to skip:", reader)
+
+	files := strings.Split(file, " ")
+
+	ignore.ConfigFileToSkip(files)
+
 	config, err := os.ReadFile(filepath.Join(cwd, "config.md"))
-	//fmt.Println(string(config))
+	fmt.Println(string(config))
 
 	if string(config) != "" {
 		fmt.Println("Generating README file...")
