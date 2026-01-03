@@ -1,10 +1,10 @@
-# Go_cli: Automated README Generation 📝✨
+# go-readme-generator: Automated README Generation 📝✨
 
 ## Description
 
-`Go_cli` serves as an intelligent assistant for developers, simplifying the often time-consuming task of writing and maintaining project documentation. It addresses the common challenge of keeping READMEs up-to-date by dynamically analyzing your project's structure and content.
+`go-readme-generator` serves as an intelligent assistant for developers, simplifying the often time-consuming task of writing and maintaining project documentation. It addresses the common challenge of keeping READMEs up-to-date by dynamically analyzing your project's structure and content.
 
-The primary goal of `Go_cli` is to provide a robust, automated solution for generating `README.md` files that are:
+The primary goal of `go-readme-generator` is to provide a robust, automated solution for generating `README.md` files that are:
 *   **Accurate:** Directly derived from the project's source code and structure.
 *   **Comprehensive:** Covering essential sections like description, features, installation, usage, folder structure, and technologies.
 *   **Customizable:** Allowing users to define specific directories and files to include or exclude from the scan.
@@ -14,21 +14,21 @@ This tool is ideal for any software project, regardless of scale, aiming to stre
 
 ## Features
 
-`Go_cli` offers a suite of features designed to make README generation seamless and effective:
+`go-readme-generator` offers a suite of features designed to make README generation seamless and effective:
 
 *   **Intelligent Directory Traversal** 🌲: Automatically scans the current working directory, identifying relevant files and folders to include in the README generation process.
 *   **Configurable Skip Lists** 🚫:
     *   **Default Exclusions:** Comes pre-configured with a list of common directories (`.git`, `node_modules`, `vendor`, `dist`, `build`, `coverage`, `.vscode`, etc.) and files (`.env`, `.gitignore`, `*.lock` files, `*.log`, etc.) to automatically ignore during scanning.
     *   **User-Defined Exclusions:** Allows users to specify additional directories and files to skip, providing fine-grained control over the content included in the prompt.
 *   **AI-Powered Content Generation** 🤖: Integrates with the Google Gemini API to process collected project data and generate detailed, well-structured, and clear `README.md` content.
-*   **Optional `config.md` Integration** ⚙️: Supports an optional `config.md` file in the project root, enabling users to provide additional context, specific instructions, or custom sections to the AI for a more tailored README output.
+*   **Optional `prompt.md` Integration** ⚙️: Supports an optional `prompt.md` file in the project root, enabling users to provide additional context, specific instructions, or custom sections to the AI for a more tailored README output.
 *   **Structured README Output** 📄: Generates `README.md` files adhering to a predefined, high-quality structure including: Project Title, Description, Features, Installation, Usage, Folder Structure Explanation, Technologies, and License.
-*   **Dynamic Prompt Construction** 📝: Builds a comprehensive AI prompt by concatenating scanned project content with the optional `config.md` and explicit instructions for the AI on README structure and formatting.
+*   **Dynamic Prompt Construction** 📝: Builds a comprehensive AI prompt by concatenating scanned project content with the optional `prompt.md` and explicit instructions for the AI on README structure and formatting.
 *   **Automated File Output** 💾: Writes the AI-generated content directly to a `README.md` file in the project's root directory.
 
 ## Installation
 
-To get `Go_cli` up and running on your system, follow these steps:
+To get `go-readme-generator` up and running on your system, follow these steps:
 
 ### 1. Prerequisites 📦
 
@@ -38,7 +38,7 @@ Ensure you have the following installed on your machine:
 ### 2. Environment Configuration 🔑
 
 This tool relies on the Google Gemini API. You need to provide your API key:
-*   Create a `.env` file in the root directory where you will run `Go_cli`.
+*   Create a `.env` file in the root directory where you will run `go-readme-generator`.
 *   Add your Gemini API key to this file:
     ```dotenv
     GEMINI_API_KEY="YOUR_GEMINI_API_KEY_HERE"
@@ -47,11 +47,11 @@ This tool relies on the Google Gemini API. You need to provide your API key:
 
 ### 3. Clone the Repository 📥
 
-First, clone the `Go_cli` repository to your local machine:
+First, clone the `go-readme-generator` repository to your local machine:
 
 ```bash
 git clone https://github.com/EsanSamuel/Go_cli.git
-cd Go_cli
+cd Go_cli # Note: The repository might still be named Go_cli, but the executable is go-readme-generator.
 ```
 
 ### 4. Build the Executable 🛠️
@@ -59,9 +59,9 @@ cd Go_cli
 Once inside the project directory, build the Go executable:
 
 ```bash
-go build -o Go_cli .
+go build -o go-readme-generator .
 ```
-This command will create an executable file named `Go_cli` (or `Go_cli.exe` on Windows) in your current directory.
+This command will create an executable file named `go-readme-generator` (or `go-readme-generator.exe` on Windows) in your current directory.
 
 ### 5. Install Dependencies (Optional, handled by `go build`) 🔗
 
@@ -69,14 +69,14 @@ Go automatically handles dependency resolution during the `go build` step using 
 
 ## Usage
 
-Using `Go_cli` is straightforward. Navigate to your project's root directory (the one for which you want to generate a README) and run the executable.
+Using `go-readme-generator` is straightforward. Navigate to your project's root directory (the one for which you want to generate a README) and run the executable.
 
 ### 1. Run the CLI Tool ▶️
 
 Execute the built CLI tool from your project's root directory:
 
 ```bash
-./Go_cli
+./go-readme-generator
 ```
 
 ### 2. Configure Exclusions (Interactive) 🚶‍♂️
@@ -95,11 +95,11 @@ The tool will prompt you interactively to specify any folders or files you wish 
     ```
     (Enter space-separated file names, including patterns like `*.tmp`. Press Enter for default skips.)
 
-### 3. (Optional) Provide `config.md` for Enhanced Context 📝
+### 3. (Optional) Provide `prompt.md` for Enhanced Context 📝
 
-You can place an optional `config.md` file in the root of your project. This file's content will be appended to the project's source code content and sent to the AI, allowing you to give specific instructions, highlight key areas, or add custom sections that the AI should include in the generated README.
+You can place an optional `prompt.md` file in the root of your project. This file's content will be appended to the project's source code content and sent to the AI, allowing you to give specific instructions, highlight key areas, or add custom sections that the AI should include in the generated README.
 
-**Example `config.md` content:**
+**Example `prompt.md` content:**
 ```markdown
 # Additional Context for README Generation
 
@@ -118,7 +118,7 @@ You can place an optional `config.md` file in the root of your project. This fil
 
 After you provide the skip configurations, the tool will:
 1.  Scan your project's files and folders (excluding those specified).
-2.  Combine the scanned content with any provided `config.md`.
+2.  Combine the scanned content with any provided `prompt.md`.
 3.  Send this aggregated data to the Gemini AI with instructions to generate a `README.md`.
 4.  Once the AI response is received, it will write the content to a new `README.md` file in your project's root directory.
 
@@ -131,10 +131,10 @@ README.md file generated successfully!
 
 ## Folder Structure Explanation
 
-`Go_cli` itself is structured as a typical Go project. Understanding its internal layout helps in comprehension and contribution:
+`go-readme-generator` itself is structured as a typical Go project. Understanding its internal layout helps in comprehension and contribution:
 
 ```
-Go_cli/
+go-readme-generator/
 ├── .env                  # Environment file for storing the GEMINI_API_KEY 🔑
 ├── ai.go                 # Handles communication with the Google Gemini API, constructing and sending prompts 🤖
 ├── go.mod                # Go module definition file, listing project dependencies and Go version 📦
@@ -144,11 +144,11 @@ Go_cli/
 └── README.md             # This file! (And the output of the CLI tool when run in another project) ✨
 ```
 
-When `Go_cli` is run *within another project*, the `config.md` (optional) and the generated `README.md` will reside in that project's root directory.
+When `go-readme-generator` is run *within another project*, the `prompt.md` (optional) and the generated `README.md` will reside in that project's root directory.
 
 ## Technologies
 
-`Go_cli` is built using a modern Go stack with powerful third-party integrations:
+`go-readme-generator` is built using a modern Go stack with powerful third-party integrations:
 
 *   **Core Language:** Go (version 1.25.5) 🐿️
 *   **AI Integration:**
