@@ -1,12 +1,12 @@
-# Go README Generator CLI
+# Go README Generator CLI 🚀
 
 This `README.md` describes the `Go README Generator CLI`, a robust command-line interface tool built with Go to automate the creation of `README.md` files.
 
-## Description
+## Description 📝
 
 The Go README Generator CLI is a powerful Go-based command-line interface tool meticulously designed to streamline the process of generating `README.md` files for your projects. It intelligently traverses a specified project directory, efficiently collects relevant code and content, and then harnesses the advanced capabilities of the Google Gemini API to produce a comprehensive and high-quality `README.md`. For enhanced customization and tailored output, the generation process can be optionally guided by a `config.md` file, allowing users to provide specific instructions and context.
 
-## Features
+## Features ✨
 
 *   **⚡ Automatic README.md Generation:** Automates the creation of `README.md` files for any given project directory.
 *   **🧠 AI-Powered Content Creation:** Integrates seamlessly with the Google Gemini API to leverage advanced AI for generating insightful and well-structured README content.
@@ -14,7 +14,7 @@ The Go README Generator CLI is a powerful Go-based command-line interface tool m
 *   **🚫 Intelligent Exclusion:** Implements smart file and directory exclusion during content collection, ensuring common development artifacts (e.g., `.git`, `node_modules`, `.env`) are skipped to maintain focus on relevant project content.
 *   **🚀 Built with Go:** Developed using the Go programming language, ensuring high performance, reliability, and ease of deployment.
 
-## Installation
+## Installation 🛠️
 
 To get started with the Go README Generator CLI, follow these simple steps:
 
@@ -48,7 +48,7 @@ To get started with the Go README Generator CLI, follow these simple steps:
     ```
     Replace `YOUR_GEMINI_API_KEY` with your actual Gemini API key.
 
-## Usage
+## Usage 🚀
 
 To generate a `README.md` file for your project using this tool:
 
@@ -70,7 +70,7 @@ To generate a `README.md` file for your project using this tool:
 
 Upon successful execution, a `README.md` file will be generated and saved in the current directory, containing the AI-generated content based on your project's structure and any provided `config.md`.
 
-## Folder Structure Explanation
+## Folder Structure Explanation 📂
 
 The project is organized into a clear and modular structure:
 
@@ -89,7 +89,7 @@ The project is organized into a clear and modular structure:
 *   `config.md` (optional):
     A user-defined Markdown file that can provide additional instructions, context, or specific guidelines to the AI, allowing for highly customized README generation.
 
-## Technologies
+## Technologies 💻
 
 The Go README Generator CLI is built upon the following key technologies:
 
@@ -97,6 +97,6 @@ The Go README Generator CLI is built upon the following key technologies:
 *   **Google Gemini API**: Utilized for its advanced generative AI capabilities, providing the core intelligence to create rich and detailed `README.md` content.
 *   **github.com/joho/godotenv**: A robust Go package specifically used for conveniently loading environment variables from `.env` files, simplifying API key management.
 
----
+## License 📜
 
 No license information was provided.

@@ -12,10 +12,14 @@ func main() {
 		fmt.Println("Error getting root directory")
 	}
 
-	content, err := WalkDir(cwd)
-	if err != nil {
-		fmt.Println(err)
-	}
+	result := make(chan string, 5)
+
+	go func() {
+		WalkDir(cwd, result)
+		close(result) // Close AFTER all sends are done
+	}()
+
+	content := <-result
 
 	config, err := os.ReadFile(filepath.Join(cwd, "config.md"))
 	//fmt.Println(string(config))

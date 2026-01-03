@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 )
 
 type ReadmeIgnore struct {
@@ -12,7 +11,7 @@ type ReadmeIgnore struct {
 	SkipFiles       []string
 }
 
-func WalkDir(root string) (string, error) {
+func WalkDir(root string, contentChan chan<- string) (string, error) {
 	ignore := ReadmeIgnore{
 		SkipDirectories: []string{
 			".git",
@@ -61,16 +60,22 @@ func WalkDir(root string) (string, error) {
 		if entry.IsDir() {
 			skip := false
 			for _, dir := range ignore.SkipDirectories {
-				if strings.Contains(entry.Name(), dir) {
+				match, err := filepath.Match(dir, entry.Name())
+				if err != nil {
+					fmt.Println("invalid pattern:", dir)
+					continue
+				}
+				if match {
 					fmt.Println("skipping dir:", entry.Name())
 					skip = true
 					break
 				}
 			}
+
 			if skip {
 				continue
 			}
-			WalkDir(fullpath)
+			go WalkDir(fullpath, contentChan)
 		} else {
 			skip := false
 			for _, pattern := range ignore.SkipFiles {
@@ -94,5 +99,6 @@ func WalkDir(root string) (string, error) {
 		}
 	}
 
+	contentChan <- string(content)
 	return string(content), nil
 }
