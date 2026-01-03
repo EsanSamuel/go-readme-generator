@@ -75,7 +75,7 @@ func WalkDir(root string, contentChan chan<- string) (string, error) {
 			if skip {
 				continue
 			}
-			go WalkDir(fullpath, contentChan)
+			WalkDir(fullpath, contentChan)
 		} else {
 			skip := false
 			for _, pattern := range ignore.SkipFiles {
