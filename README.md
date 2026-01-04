@@ -27,7 +27,6 @@ To install and run `go-readme-generator`, you need to have Go installed on your 
     git clone https://github.com/EsanSamuel/Go_cli.git go-readme-generator
     cd go-readme-generator
     ```
-    *Note: The module name is `github.com/EsanSamuel/Go_cli`, but the project is referred to as `go-readme-generator`.*
 3.  **Install Dependencies**: Go will automatically download the necessary dependencies defined in `go.mod`.
     ```bash
     go mod tidy
