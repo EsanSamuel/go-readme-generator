@@ -64,7 +64,7 @@ func (s *ReadmeIgnore) ConfigFileToSkip(files []string) {
 	for _, file := range files {
 		s.SkipFiles = append(s.SkipFiles, file)
 	}
-	fmt.Println(s.SkipFiles)
+	//fmt.Println(s.SkipFiles)
 }
 
 func WalkDir(root string, ignore ReadmeIgnore, contentChan chan<- string) (string, error) {

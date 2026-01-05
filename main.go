@@ -6,6 +6,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/mbndr/figlet4go"
 )
 
 func getInput(prompt string, r *bufio.Reader) (string, error) {
@@ -15,6 +17,15 @@ func getInput(prompt string, r *bufio.Reader) (string, error) {
 }
 
 func main() {
+	options := figlet4go.NewRenderOptions()
+	options.FontColor = []figlet4go.Color{
+		figlet4go.ColorCyan,
+	}
+
+	ascii := figlet4go.NewAsciiRender()
+
+	renderStr, _ := ascii.RenderOpts("GO README GENERATOR", options)
+	fmt.Print(renderStr)
 	cwd, err := os.Getwd()
 	if err != nil {
 		fmt.Println("Error getting root directory")
@@ -52,8 +63,8 @@ func main() {
 
 	if string(config) != "" {
 		fmt.Println("Generating README file...")
-		prompt := strings.TrimSpace(string(content + string(config)))
-		ai, err := Ai(string(prompt))
+		prompt := strings.TrimSpace(content + string(config))
+		ai, err := Ai(prompt)
 		if err != nil {
 			fmt.Println("Error generating readme with AI:", err.Error())
 		}
@@ -65,7 +76,7 @@ func main() {
 		fmt.Printf("%s✨ README.md file generated successfully!%s\n", colorGreen, colorReset)
 	} else {
 		fmt.Println("Generating README file...")
-		prompt := strings.TrimSpace(string(content))
+		prompt := strings.TrimSpace(content)
 		ai, err := Ai(prompt)
 		if err != nil {
 			fmt.Println("Error generating readme with AI:", err.Error())
