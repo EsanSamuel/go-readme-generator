@@ -1,84 +1,90 @@
-# go-readme-generator
+# Go README Generator CLI
 
 ## Description
 
-The `go-readme-generator` is a Go-based command-line tool designed to automate the creation of high-quality `README.md` files for your projects. It achieves this by scanning the project's directory structure, collecting relevant file contents (while intelligently skipping specified files and folders), and then leveraging Google's Gemini Generative AI to craft a comprehensive README based on the collected data and an optional custom prompt.
+This project provides a Command Line Interface (CLI) tool written in Go that automates the generation of `README.md` files. It works by scanning the current directory, collecting file and folder information, and then leveraging the Google Gemini AI model to generate a descriptive `README.md`. The tool is designed to help users document their projects by intelligently analyzing the code structure and content.
+
+Specifically, it aims to design the file structure explanation and teach users how to use the CLI tool, as indicated by its internal prompt.
 
 ## Features
 
-*   **Automated Project Content Collection**: Recursively walks the project directory to gather file contents for AI processing.
-*   **Configurable Exclusion List**: Comes with a default list of directories (e.g., `.git`, `node_modules`) and files (e.g., `.env`, `*.log`) to skip, preventing irrelevant data from being sent to the AI.
-*   **User-Defined Exclusions**: Allows users to specify additional folders and files to skip during runtime via interactive prompts.
-*   **Google Gemini AI Integration**: Utilizes the `gemini-2.5-flash` model via the `google.golang.org/genai` library to generate the README content.
-*   **Customizable AI Prompt**: Supports an optional `prompt.md` file in the project root to provide additional, specific instructions or context to the AI for README generation.
-*   **Output to `README.md`**: Generates and writes the AI-produced content directly into a `README.md` file in the current working directory.
-*   **Environment Variable Support**: Loads the Gemini API key from a `.env` file.
+*   **Automated README Generation**: Scans project files and directories to gather information for README creation.
+*   **Customizable File/Folder Exclusion**: Allows users to specify directories and files to skip during the scanning process, ensuring sensitive or irrelevant information is not included.
+*   **AI-Powered Content Generation**: Integrates with the Google Gemini API (`gemini-2.5-flash` model) to create high-quality, contextual README content.
+*   **Environment Variable Support**: Loads API keys from a `.env` file using `godotenv`.
+*   **Optional Custom Prompt**: Supports an optional `prompt.md` file in the root directory to provide specific instructions or context to the AI for generating the README.
+*   **Colored Output**: Provides visual feedback in the terminal with colored success messages.
 
 ## Installation
 
-To install and run `go-readme-generator`, you need to have Go installed on your system.
+To install and run this CLI tool, you need to have Go (version 1.25.5 or later) installed on your system.
 
-1.  **Go Version**: Ensure you have Go version `1.25.5` or later installed.
+1.  **Clone the repository:**
     ```bash
-    go version
-    ```
-2.  **Clone the Repository**:
-    ```bash
-    git clone https://github.com/EsanSamuel/Go_cli.git go-readme-generator
+    git clone github.com/EsanSamuel/go-readme-generator
     cd go-readme-generator
     ```
-3.  **Install Dependencies**: Go will automatically download the necessary dependencies defined in `go.mod`.
+
+2.  **Set up environment variables:**
+    Create a `.env` file in the root of the project and add your Google Gemini API key:
+    ```
+    GEMINI_API_KEY="YOUR_GEMINI_API_KEY"
+    ```
+    You can obtain a Gemini API key from the [Google AI Studio](https://ai.google.dev/).
+
+3.  **Download dependencies and build:**
     ```bash
     go mod tidy
+    go build -o go-readme-generator .
     ```
-4.  **API Key Configuration**: Create a `.env` file in the root of the `go-readme-generator` directory with your Google Gemini API key.
-    ```
-    # .env
-    GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE
-    ```
-    You can obtain a `GEMINI_API_KEY` from the [Google AI Studio](https://ai.google.dev/).
+    This will create an executable named `go-readme-generator` (or `go-readme-generator.exe` on Windows) in the current directory.
 
 ## Usage
 
-Follow these steps to generate a `README.md` for your project:
+To generate a `README.md` file for your project:
 
-1.  **Navigate to your project directory**: Change your current working directory to the root of the project for which you want to generate a README.
-2.  **Run the generator**:
+1.  Navigate to the root directory of your project where you want the `README.md` to be generated.
+2.  Run the executable:
     ```bash
-    go run main.go
+    ./go-readme-generator
     ```
-3.  **Interact with prompts**: The application will prompt you to enter folders and files you wish to skip. You can enter multiple items separated by spaces.
-    ```
-    Enter folders you want to skip: .vscode temp
-    Enter files you want to skip: config.yaml test_data.json
-    ```
-    *Note: There are default folders and files already skipped (e.g., `.git`, `node_modules`, `.env`). Your input adds to this list.*
-4.  **Optional: Provide a custom prompt**: If you want to give the AI specific instructions beyond just the project's code, create a file named `prompt.md` in your project's root directory. The content of this file will be appended to the code content sent to the AI.
-    For example, `prompt.md` could contain:
-    ```markdown
-    ALSO TEACH PEOPLE HOW TO USE THIS PROJECT WITH WELL EXPLAINED DETAILS. The project name is now go-readme-generator and the config file is now prompt.md
-    ```
-    If `prompt.md` is present and has content, it will be used. Otherwise, the AI will generate the README based solely on the scanned project files.
-5.  **Review the generated `README.md`**: Once the process is complete, a `README.md` file will be created or updated in your project's root directory with the AI-generated content.
 
+3.  The CLI will prompt you to enter folders and files you wish to skip:
+    ```
+    Enter folders you want to skip:
+    ```
+    Enter folder names separated by spaces (e.g., `node_modules .git build`). Press Enter when done.
+
+    ```
+    Enter files you want to skip:
+    ```
+    Enter file names or patterns separated by spaces (e.g., `.env *.log temp.txt`). Press Enter when done.
+
+4.  The tool will then scan your project, communicate with the Gemini AI, and generate a `README.md` file in the current directory. You will see progress messages in the terminal:
     ```
     Generating README file...
     Writing README file...
     ✨ README.md file generated successfully!
     ```
 
+**Using a Custom Prompt:**
+You can guide the AI's README generation by placing a file named `prompt.md` in your project's root directory. The content of this file will be prepended to the AI's internal prompt, allowing you to provide specific instructions or context relevant to your project.
+
+Example `prompt.md` content:
+```
+This project is a web server built with Gin Gonic. Focus on API endpoints.
+```
+
 ## Folder Structure Explanation
 
-The project has the following key files:
-
-*   **`ai.go`**: Contains the core logic for interacting with the Google Gemini API. It handles loading the API key, configuring the AI client, and sending prompts to generate content.
-*   **`go.mod`**: Defines the Go module path (`github.com/EsanSamuel/Go_cli`) and lists all direct and indirect dependencies required by the project, including `google.golang.org/genai` and `github.com/joho/godotenv`.
-*   **`main.go`**: The entry point of the application. It orchestrates the entire README generation process, including getting user input, initiating directory scanning, reading the `prompt.md` (if present), calling the AI function, and writing the final `README.md` file.
-*   **`prompt.md`**: An optional configuration file. If present in the project root, its content is appended to the scanned project code to provide additional instructions or context to the AI for README generation.
-*   **`read.go`**: Manages the directory walking and file/folder exclusion logic. It defines the `ReadmeIgnore` struct and functions to configure default and user-specified items to skip during the scanning process.
+*   `ai.go`: Contains the core logic for interacting with the Google Gemini API. It handles setting up the client, sending prompts, and receiving responses for README generation.
+*   `main.go`: The main entry point of the CLI application. It orchestrates user input for ignore rules, initiates directory traversal, calls the AI function, and writes the generated `README.md` file.
+*   `read.go`: Manages directory scanning, file content collection, and defines ignore rules. It includes functions to configure custom skip directories and files, and to recursively walk the file system.
+*   `go.mod`: Defines the Go module path and lists all direct and indirect dependencies required by the project.
+*   `prompt.md` (Optional): An external file that can be created by the user to provide custom instructions or context to the AI model during README generation.
 
 ## Technologies
 
-*   **Go**: The primary programming language used for the entire application (version `1.25.5`).
-*   **Google Generative AI (Gemini)**: Utilized through the `google.golang.org/genai` Go client library to power the AI-driven README generation. Specifically, the `gemini-2.5-flash` model is used.
-*   **`github.com/joho/godotenv`**: A Go package used for loading environment variables from `.env` files.
+*   **Go**: The programming language used for developing the CLI tool (Go 1.25.5).
+*   **Google Gemini API (`google.golang.org/genai`)**: Utilized for generating text content for the README.
+*   **godotenv (`github.com/joho/godotenv`)**: Used for loading environment variables from a `.env` file.

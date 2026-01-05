@@ -25,16 +25,6 @@ func main() {
 		colorReset = "\033[0m"
 	)
 	ignore := AddReadmeIgnore()
-
-	result := make(chan string, 5)
-
-	go func() {
-		WalkDir(cwd, ignore, result)
-		close(result) // Close after all sends are done
-	}()
-
-	content := <-result
-
 	reader := bufio.NewReader(os.Stdin)
 	directory, _ := getInput("Enter folders you want to skip:", reader)
 
@@ -47,6 +37,15 @@ func main() {
 	files := strings.Split(file, " ")
 
 	ignore.ConfigFileToSkip(files)
+
+	result := make(chan string, 5)
+
+	go func() {
+		WalkDir(cwd, ignore, result)
+		close(result) // Close after all sends are done
+	}()
+
+	content := <-result
 
 	config, err := os.ReadFile(filepath.Join(cwd, "prompt.md"))
 	//fmt.Println(string(config))

@@ -12,7 +12,7 @@ type ReadmeIgnore struct {
 }
 
 func AddReadmeIgnore() ReadmeIgnore {
-	ignore := ReadmeIgnore{
+	ignore := &ReadmeIgnore{
 		SkipDirectories: []string{
 			".git",
 			"node_modules",
@@ -46,10 +46,25 @@ func AddReadmeIgnore() ReadmeIgnore {
 			"*.key",
 			"*.crt",
 			"*.zip",
+			"README.md",
 		},
 	}
 
-	return ignore
+	return *ignore
+}
+
+func (s *ReadmeIgnore) ConfigFolderToSkip(dirs []string) {
+	for _, dir := range dirs {
+		s.SkipDirectories = append(s.SkipDirectories, dir)
+	}
+	//fmt.Println(s.SkipDirectories)
+}
+
+func (s *ReadmeIgnore) ConfigFileToSkip(files []string) {
+	for _, file := range files {
+		s.SkipFiles = append(s.SkipFiles, file)
+	}
+	fmt.Println(s.SkipFiles)
 }
 
 func WalkDir(root string, ignore ReadmeIgnore, contentChan chan<- string) (string, error) {
@@ -107,18 +122,4 @@ func WalkDir(root string, ignore ReadmeIgnore, contentChan chan<- string) (strin
 
 	contentChan <- string(content)
 	return string(content), nil
-}
-
-func (s *ReadmeIgnore) ConfigFolderToSkip(dirs []string) {
-	for _, dir := range dirs {
-		s.SkipDirectories = append(s.SkipDirectories, dir)
-	}
-	//fmt.Println(s.SkipDirectories)
-}
-
-func (s *ReadmeIgnore) ConfigFileToSkip(files []string) {
-	for _, file := range files {
-		s.SkipFiles = append(s.SkipFiles, file)
-	}
-	//fmt.Println(s.SkipFiles)
 }
