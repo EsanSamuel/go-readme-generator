@@ -1,4 +1,4 @@
-module github.com/EsanSamuel/Go_cli
+module github.com/EsanSamuel/go-readme-generator
 
 go 1.25.5
 

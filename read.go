@@ -98,7 +98,7 @@ func WalkDir(root string, ignore ReadmeIgnore, contentChan chan<- string) (strin
 				continue
 			}
 			file, _ := os.ReadFile(fullpath)
-			fileWithFilepath := "File Name:" + fullpath + "File content:" + string(file)
+			fileWithFilepath := "File Path: " + fullpath + "File content: " + string(file)
 			fileByte := []byte(fileWithFilepath)
 			//fmt.Println(string(fileByte))
 			content = append(content, fileByte...)
