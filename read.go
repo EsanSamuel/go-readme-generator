@@ -67,7 +67,7 @@ func (s *ReadmeIgnore) ConfigFileToSkip(files []string) {
 	//fmt.Println(s.SkipFiles)
 }
 
-func WalkDir(root string, ignore ReadmeIgnore, contentChan chan<- string) (string, error) {
+func WalkDir(root string, ignore ReadmeIgnore, /*contentChan chan<- string*/) (string, error) {
 	entries, err := os.ReadDir(root)
 	if err != nil {
 		return "", err
@@ -94,7 +94,7 @@ func WalkDir(root string, ignore ReadmeIgnore, contentChan chan<- string) (strin
 			if skip {
 				continue
 			}
-			WalkDir(fullpath, ignore, contentChan)
+			WalkDir(fullpath, ignore, /*contentChan*/)
 		} else {
 			skip := false
 			for _, pattern := range ignore.SkipFiles {
@@ -120,6 +120,6 @@ func WalkDir(root string, ignore ReadmeIgnore, contentChan chan<- string) (strin
 		}
 	}
 
-	contentChan <- string(content)
+	//contentChan <- string(content)
 	return string(content), nil
 }

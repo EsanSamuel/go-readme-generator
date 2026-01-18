@@ -49,14 +49,11 @@ func main() {
 
 	ignore.ConfigFileToSkip(files)
 
-	result := make(chan string, 5)
+	//result := make(chan string, 5)
 
-	go func() {
-		WalkDir(cwd, ignore, result)
-		close(result) // Close after all sends are done
-	}()
+	content, _ := WalkDir(cwd, ignore /*result*/)
 
-	content := <-result
+	//content := <-result
 
 	config, err := os.ReadFile(filepath.Join(cwd, "prompt.md"))
 	//fmt.Println(string(config))
