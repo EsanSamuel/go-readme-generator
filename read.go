@@ -122,4 +122,5 @@ func WalkDir(root string, ignore ReadmeIgnore, /*contentChan chan<- string*/) (s
 
 	//contentChan <- string(content)
 	return string(content), nil
+	// Had to comment out all the concurrent flow 
 }
